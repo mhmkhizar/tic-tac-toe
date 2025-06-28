@@ -21,3 +21,28 @@ const gameboard = (function () {
 
   return { get, mark, isFull, reset };
 })();
+
+const playerFactory = (function () {
+  function createPlayer(name, mark) {
+    if (typeof name !== `string` || name.trim() === ``) {
+      console.warn(`Invalid name provided, using default name...`);
+      name = `Player`;
+    }
+    if (mark !== `X` && mark !== `O`) {
+      console.warn(`Invalid mark provided, using default mark...`);
+      mark = `X`;
+    }
+
+    const playerName = name.trim();
+    const playerMark = mark;
+
+    const getName = () => playerName;
+    const getMark = () => playerMark;
+
+    return { getName, getMark };
+  }
+  return { createPlayer };
+})();
+
+const player1 = playerFactory.createPlayer(`Asad`, `X`);
+const player2 = playerFactory.createPlayer(`Samad`, `O`);
