@@ -57,16 +57,43 @@ const gameController = (function () {
   const playRound = function (index) {
     gameBoard.addMark(index, turn);
     switchTurn(turn);
+    console.log(checkWin());
   };
 
-  return { startGame, playRound };
+  const checkWin = function () {
+    const board = gameBoard.getState();
+    const winningCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    return winningCombos.some((combo) => {
+      return combo.every(
+        (index) => board[index] === `X` || board[index] === `O`
+      );
+    });
+  };
+
+  return { startGame, playRound, checkWin };
 })();
 
 gameController.startGame();
 console.log(gameBoard.getState());
+gameController.playRound(8);
+console.log(gameBoard.getState());
+gameController.playRound(0);
+console.log(gameBoard.getState());
 gameController.playRound(7);
 console.log(gameBoard.getState());
-gameController.playRound(6);
+gameController.playRound(1);
 console.log(gameBoard.getState());
 gameController.playRound(5);
+console.log(gameBoard.getState());
+gameController.playRound(2);
 console.log(gameBoard.getState());
