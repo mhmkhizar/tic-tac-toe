@@ -1,11 +1,11 @@
-const gameboard = (function () {
+const gameBoard = (function () {
   const EMPTY_BOARD = [``, ``, ``, ``, ``, ``, ``, ``, ``];
 
   let board = [...EMPTY_BOARD];
 
-  const get = () => [...board];
+  const getState = () => [...board];
 
-  const mark = (index, mark) => {
+  const addMark = (index, mark) => {
     if (index < 0 || index > 8) return false;
     if (board[index] !== ``) return false;
     if (mark !== `X` && mark !== `O`) return false;
@@ -19,30 +19,54 @@ const gameboard = (function () {
     board = [...EMPTY_BOARD];
   };
 
-  return { get, mark, isFull, reset };
+  return { getState, addMark, isFull, reset };
 })();
 
-const playerFactory = (function () {
-  function createPlayer(name, mark) {
-    if (typeof name !== `string` || name.trim() === ``) {
-      console.warn(`Invalid name provided, using default name...`);
-      name = `Player`;
-    }
-    if (mark !== `X` && mark !== `O`) {
-      console.warn(`Invalid mark provided, using default mark...`);
-      mark = `X`;
-    }
-
-    const playerName = name.trim();
-    const playerMark = mark;
-
-    const getName = () => playerName;
-    const getMark = () => playerMark;
-
-    return { getName, getMark };
+const playerFactory = function (name, mark) {
+  if (typeof name !== `string` || name.trim() === ``) {
+    console.warn(`Invalid name provided, using default name...`);
+    name = `Player`;
   }
-  return { createPlayer };
+  if (mark !== `X` && mark !== `O`) {
+    console.warn(`Invalid mark provided, using default mark...`);
+    mark = `X`;
+  }
+
+  const playerName = name.trim();
+  const playerMark = mark;
+
+  const getName = () => playerName;
+  const getMark = () => playerMark;
+
+  return { getName, getMark };
+};
+
+const gameController = (function () {
+  const player1 = playerFactory(`Asad`, `X`);
+  const player2 = playerFactory(`Samad`, `O`);
+  let turn = player1.getMark();
+
+  const startGame = function () {
+    gameBoard.reset();
+  };
+
+  const switchTurn = function (lastTurn) {
+    return lastTurn === `X` ? (turn = `O`) : (turn = `X`);
+  };
+
+  const playRound = function (index) {
+    gameBoard.addMark(index, turn);
+    switchTurn(turn);
+  };
+
+  return { startGame, playRound };
 })();
 
-const player1 = playerFactory.createPlayer(`Asad`, `X`);
-const player2 = playerFactory.createPlayer(`Samad`, `O`);
+gameController.startGame();
+console.log(gameBoard.getState());
+gameController.playRound(7);
+console.log(gameBoard.getState());
+gameController.playRound(6);
+console.log(gameBoard.getState());
+gameController.playRound(5);
+console.log(gameBoard.getState());
