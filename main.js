@@ -1,28 +1,29 @@
 const gameBoard = (function () {
   const EMPTY_BOARD = [``, ``, ``, ``, ``, ``, ``, ``, ``];
 
-  let board = [...EMPTY_BOARD];
+  let currentBoard = [...EMPTY_BOARD];
 
-  const getState = () => [...board];
+  const getBoard = () => [...currentBoard];
 
-  const addMark = (index, mark) => {
+  const placeMark = (index, mark) => {
     if (index < 0 || index > 8) return false;
-    if (board[index] !== ``) return false;
+    if (currentBoard[index] !== ``) return false;
     if (mark !== `X` && mark !== `O`) return false;
 
-    board[index] = mark;
+    currentBoard[index] = mark;
     return true;
   };
 
-  const isFull = () => board.every((slot) => slot !== ``);
-  const reset = () => {
-    board = [...EMPTY_BOARD];
+  const isBoardFull = () => currentBoard.every((slot) => slot !== ``);
+
+  const resetBoard = () => {
+    currentBoard = [...EMPTY_BOARD];
   };
 
-  return { getState, addMark, isFull, reset };
+  return { getBoard, placeMark, isBoardFull, resetBoard };
 })();
 
-const playerFactory = function (name, mark) {
+const createPlayer = function (name, mark) {
   if (typeof name !== `string` || name.trim() === ``) {
     console.warn(`Invalid name provided, using default name...`);
     name = `Player`;
@@ -41,59 +42,38 @@ const playerFactory = function (name, mark) {
   return { getName, getMark };
 };
 
+const player1 = createPlayer(`Asad`, `X`);
+const player2 = createPlayer(`Samad`, `O`);
+
 const gameController = (function () {
-  const player1 = playerFactory(`Asad`, `X`);
-  const player2 = playerFactory(`Samad`, `O`);
-  let turn = player1.getMark();
+  let currentTurn;
 
-  const startGame = function () {
-    gameBoard.reset();
+  const initializeGame = function () {
+    gameBoard.resetBoard();
+    currentTurn = player1.getMark();
   };
 
-  const switchTurn = function (lastTurn) {
-    return lastTurn === `X` ? (turn = `O`) : (turn = `X`);
+  const toggleTurn = function (lastMark) {
+    return lastMark === `X` ? `O` : `X`;
   };
 
-  const playRound = function (index) {
-    gameBoard.addMark(index, turn);
-    switchTurn(turn);
-    console.log(checkWin());
+  const handleMove = function (index) {
+    const wasPlaced = gameBoard.placeMark(index, currentTurn);
+    if (wasPlaced) currentTurn = toggleTurn(currentTurn);
   };
 
-  const checkWin = function () {
-    const board = gameBoard.getState();
-    const winningCombos = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    return winningCombos.some((combo) => {
-      return combo.every(
-        (index) => board[index] === `X` || board[index] === `O`
-      );
-    });
-  };
-
-  return { startGame, playRound, checkWin };
+  return { initializeGame, handleMove };
 })();
 
-gameController.startGame();
-console.log(gameBoard.getState());
-gameController.playRound(8);
-console.log(gameBoard.getState());
-gameController.playRound(0);
-console.log(gameBoard.getState());
-gameController.playRound(7);
-console.log(gameBoard.getState());
-gameController.playRound(1);
-console.log(gameBoard.getState());
-gameController.playRound(5);
-console.log(gameBoard.getState());
-gameController.playRound(2);
-console.log(gameBoard.getState());
+gameController.initializeGame();
+console.log(gameBoard.getBoard());
+gameController.handleMove(9);
+console.log(gameBoard.getBoard());
+gameController.handleMove(8);
+console.log(gameBoard.getBoard());
+gameController.handleMove(7);
+console.log(gameBoard.getBoard());
+gameController.handleMove(9);
+console.log(gameBoard.getBoard());
+gameController.handleMove(6);
+console.log(gameBoard.getBoard());
