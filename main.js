@@ -60,20 +60,35 @@ const gameController = (function () {
   const handleMove = function (index) {
     const wasPlaced = gameBoard.placeMark(index, currentTurn);
     if (wasPlaced) currentTurn = toggleTurn(currentTurn);
+    checkWinner();
   };
 
-  return { initializeGame, handleMove };
-})();
+  const checkWinner = function () {
+    let winner = null;
+    const board = gameBoard.getBoard();
+    const winningCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
 
-gameController.initializeGame();
-console.log(gameBoard.getBoard());
-gameController.handleMove(9);
-console.log(gameBoard.getBoard());
-gameController.handleMove(8);
-console.log(gameBoard.getBoard());
-gameController.handleMove(7);
-console.log(gameBoard.getBoard());
-gameController.handleMove(9);
-console.log(gameBoard.getBoard());
-gameController.handleMove(6);
-console.log(gameBoard.getBoard());
+    for (const combo of winningCombos) {
+      const [a, b, c] = combo;
+      if (board[a] && board[a] === board[b] && board[b] === board[c])
+        winner = board[a];
+    }
+
+    if ((gameBoard.isBoardFull() && !winner) || winner) {
+      if (winner) console.log(`Winner is ${winner}.`);
+      else console.log(`It's a Draw.`);
+      gameBoard.resetBoard();
+    }
+  };
+
+  return { initializeGame, handleMove, checkWinner };
+})();
