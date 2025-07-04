@@ -42,29 +42,46 @@ const createPlayer = function (name, mark) {
   return { getName, getMark };
 };
 
-const player1 = createPlayer(`Asad`, `X`);
-const player2 = createPlayer(`Samad`, `O`);
-
 const gameController = (function () {
-  let currentTurn;
+  const player1 = createPlayer(`Asad`, `X`);
+  const player2 = createPlayer(`Samad`, `O`);
+
+  let activePlayer;
+  let isGameOver;
 
   const initializeGame = function () {
     gameBoard.resetBoard();
-    currentTurn = player1.getMark();
+    activePlayer = player1;
+    isGameOver = false;
+    console.log(gameBoard.getBoard()); // -------- FVP
   };
 
-  const toggleTurn = function (lastMark) {
-    return lastMark === `X` ? `O` : `X`;
+  const switchPlayerTurn = function () {
+    return (activePlayer = activePlayer === player1 ? player2 : player1);
   };
 
-  const handleMove = function (index) {
-    const wasPlaced = gameBoard.placeMark(index, currentTurn);
-    if (wasPlaced) currentTurn = toggleTurn(currentTurn);
-    checkWinner();
+  const playRound = function (index) {
+    if (isGameOver)
+      return console.log("Game is over! Please start a new game.");
+
+    const wasPlaced = gameBoard.placeMark(index, activePlayer.getMark());
+
+    if (wasPlaced) {
+      console.log(gameBoard.getBoard()); // -------- FVP
+      const winner = checkWinner();
+      if (winner) {
+        isGameOver = true;
+        winner === `Draw`
+          ? console.log(`It's a draw.`)
+          : console.log(`Winner is ${activePlayer.getName()} ${winner}`);
+        return;
+      } else switchPlayerTurn();
+    } else {
+      console.log("Invalid move. Try another spot.");
+    }
   };
 
   const checkWinner = function () {
-    let winner = null;
     const board = gameBoard.getBoard();
     const winningCombos = [
       [0, 1, 2],
@@ -79,16 +96,28 @@ const gameController = (function () {
 
     for (const combo of winningCombos) {
       const [a, b, c] = combo;
-      if (board[a] && board[a] === board[b] && board[b] === board[c])
-        winner = board[a];
+      if (board[a] && board[a] === board[b] && board[b] === board[c]) {
+        return board[a];
+      }
     }
 
-    if ((gameBoard.isBoardFull() && !winner) || winner) {
-      if (winner) console.log(`Winner is ${winner}.`);
-      else console.log(`It's a Draw.`);
-      gameBoard.resetBoard();
+    if (gameBoard.isBoardFull()) {
+      return `Draw`;
     }
+
+    return null;
   };
 
-  return { initializeGame, handleMove, checkWinner };
+  return { initializeGame, playRound, checkWinner };
 })();
+
+gameController.initializeGame();
+gameController.playRound(0);
+gameController.playRound(1);
+gameController.playRound(2);
+gameController.playRound(3);
+gameController.playRound(4);
+gameController.playRound(6);
+gameController.playRound(5);
+gameController.playRound(8);
+gameController.playRound(7);
