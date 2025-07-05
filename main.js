@@ -24,6 +24,23 @@ const gameBoard = (function () {
   return { getBoard, placeMark, isBoardFull, resetBoard };
 })();
 
+const playerFactory = function (name, mark) {
+  if (typeof name !== `string` || name.trim() === ``)
+    return console.log(`Invalid name`);
+  if (typeof mark !== `string`) return console.log(`Invalid mark`);
+  const upperMark = mark.toUpperCase();
+  if (upperMark !== `X` && upperMark !== `O`)
+    return console.log(`Invalid mark`);
+
+  const playerName = name;
+  const playerMark = mark;
+
+  const getPlayerName = () => playerName;
+  const getPlayerMark = () => playerMark;
+
+  return { getPlayerName, getPlayerMark };
+};
+
 // const gameBoard = (function () {
 //   const EMPTY_BOARD = [``, ``, ``, ``, ``, ``, ``, ``, ``];
 
@@ -51,7 +68,7 @@ const gameBoard = (function () {
 
 // const createPlayer = function (name, mark) {
 //   if (typeof name !== `string` || name.trim() === ``) {
-//     console.warn(`Invalid name provided, using default name...`);
+//     console.warn(`Invalid name`);
 //     name = `Player`;
 //   }
 //   if (mark !== `X` && mark !== `O`) {
