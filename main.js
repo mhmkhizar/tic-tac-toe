@@ -35,124 +35,77 @@ const playerFactory = function (name, mark) {
   const playerName = name;
   const playerMark = mark;
 
-  const getPlayerName = () => playerName;
-  const getPlayerMark = () => playerMark;
+  const getName = () => playerName;
+  const getMark = () => playerMark;
 
-  return { getPlayerName, getPlayerMark };
+  return { getName, getMark };
 };
 
-// const gameBoard = (function () {
-//   const EMPTY_BOARD = [``, ``, ``, ``, ``, ``, ``, ``, ``];
+const gameController = (function () {
+  const playerOne = playerFactory(`Saul Goodman`, `X`);
+  const playerTwo = playerFactory(`Damon Salvatore`, `O`);
+  let activePlayer;
+  let isGameOver;
 
-//   let currentBoard = [...EMPTY_BOARD];
+  const initializeGame = () => {
+    gameBoard.resetBoard();
+    activePlayer = playerOne;
+    isGameOver = false;
+    console.log(gameBoard.getBoard());
+  };
 
-//   const getBoard = () => [...currentBoard];
+  const playRound = (index) => {
+    if (isGameOver)
+      return console.log(`Game is over, please start a new game.`);
 
-//   const placeMark = (index, mark) => {
-//     if (index < 0 || index > 8) return false;
-//     if (currentBoard[index] !== ``) return false;
-//     if (mark !== `X` && mark !== `O`) return false;
+    const wasPlaced = gameBoard.placeMark(index, activePlayer.getMark());
 
-//     currentBoard[index] = mark;
-//     return true;
-//   };
+    if (wasPlaced) {
+      console.log(gameBoard.getBoard());
+      const winner = checkWinner();
+      if (winner) {
+        isGameOver = true;
+        winner === `Draw`
+          ? console.log(`It's a draw`)
+          : console.log(
+              `The winner is ${activePlayer.getName()}'s "${activePlayer.getMark()}"`
+            );
+        return;
+      } else switchPlayerTurn();
+    } else {
+      return console.log(`Invalid spot.`);
+    }
+  };
 
-//   const isBoardFull = () => currentBoard.every((slot) => slot !== ``);
+  const switchPlayerTurn = () => {
+    return (activePlayer = activePlayer === playerOne ? playerTwo : playerOne);
+  };
 
-//   const resetBoard = () => {
-//     currentBoard = [...EMPTY_BOARD];
-//   };
+  const checkWinner = () => {
+    const board = gameBoard.getBoard();
+    const winningCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
 
-//   return { getBoard, placeMark, isBoardFull, resetBoard };
-// })();
+    for (const combo of winningCombos) {
+      const [a, b, c] = combo;
+      if (board[a] && board[a] === board[b] && board[b] === board[c]) {
+        return board[a];
+      } else if (gameBoard.isBoardFull()) return `Draw`;
+    }
 
-// const createPlayer = function (name, mark) {
-//   if (typeof name !== `string` || name.trim() === ``) {
-//     console.warn(`Invalid name`);
-//     name = `Player`;
-//   }
-//   if (mark !== `X` && mark !== `O`) {
-//     console.warn(`Invalid mark provided, using default mark...`);
-//     mark = `X`;
-//   }
+    return null;
+  };
 
-//   const playerName = name.trim();
-//   const playerMark = mark;
-
-//   const getName = () => playerName;
-//   const getMark = () => playerMark;
-
-//   return { getName, getMark };
-// };
-
-// const gameController = (function () {
-//   const player1 = createPlayer(`Asad`, `X`);
-//   const player2 = createPlayer(`Samad`, `O`);
-
-//   let activePlayer;
-//   let isGameOver;
-
-//   const initializeGame = function () {
-//     gameBoard.resetBoard();
-//     activePlayer = player1;
-//     isGameOver = false;
-//     console.log(gameBoard.getBoard()); // -------- FVP
-//   };
-
-//   const switchPlayerTurn = function () {
-//     return (activePlayer = activePlayer === player1 ? player2 : player1);
-//   };
-
-//   const playRound = function (index) {
-//     if (isGameOver)
-//       return console.log("Game is over! Please start a new game.");
-
-//     const wasPlaced = gameBoard.placeMark(index, activePlayer.getMark());
-
-//     if (wasPlaced) {
-//       console.log(gameBoard.getBoard()); // -------- FVP
-//       const winner = checkWinner();
-//       if (winner) {
-//         isGameOver = true;
-//         winner === `Draw`
-//           ? console.log(`It's a draw.`)
-//           : console.log(`Winner is ${activePlayer.getName()} ${winner}`);
-//         return;
-//       } else switchPlayerTurn();
-//     } else {
-//       console.log("Invalid move. Try another spot.");
-//     }
-//   };
-
-//   const checkWinner = function () {
-//     const board = gameBoard.getBoard();
-//     const winningCombos = [
-//       [0, 1, 2],
-//       [3, 4, 5],
-//       [6, 7, 8],
-//       [0, 3, 6],
-//       [1, 4, 7],
-//       [2, 5, 8],
-//       [0, 4, 8],
-//       [2, 4, 6],
-//     ];
-
-//     for (const combo of winningCombos) {
-//       const [a, b, c] = combo;
-//       if (board[a] && board[a] === board[b] && board[b] === board[c]) {
-//         return board[a];
-//       }
-//     }
-
-//     if (gameBoard.isBoardFull()) {
-//       return `Draw`;
-//     }
-
-//     return null;
-//   };
-
-//   return { initializeGame, playRound, checkWinner };
-// })();
+  return { initializeGame, playRound };
+})();
 
 // gameController.initializeGame();
 // gameController.playRound(0);
