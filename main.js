@@ -1,6 +1,6 @@
 const gameBoard = (function () {
   const EMPTY_BOARD = [``, ``, ``, ``, ``, ``, ``, ``, ``];
-  const currentBoard = [...EMPTY_BOARD];
+  let currentBoard = [...EMPTY_BOARD];
 
   const getBoard = () => [...currentBoard];
 
@@ -26,11 +26,11 @@ const gameBoard = (function () {
 
 const playerFactory = function (name, mark) {
   if (typeof name !== `string` || name.trim() === ``)
-    return console.log(`Invalid name`);
-  if (typeof mark !== `string`) return console.log(`Invalid mark`);
+    return console.warn(`Invalid name`);
+  if (typeof mark !== `string`) return console.warn(`Invalid mark`);
   const upperMark = mark.toUpperCase();
   if (upperMark !== `X` && upperMark !== `O`)
-    return console.log(`Invalid mark`);
+    return console.warn(`Invalid mark`);
 
   const playerName = name;
   const playerMark = mark;
