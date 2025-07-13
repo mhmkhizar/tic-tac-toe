@@ -3,6 +3,8 @@ const gameBoard = (function () {
   let currentBoard = [...EMPTY_BOARD];
 
   const getBoard = () => [...currentBoard];
+  const isBoardFull = () => currentBoard.every((slot) => slot !== ``);
+  const resetBoard = () => (currentBoard = [...EMPTY_BOARD]);
 
   const placeMark = (index, mark) => {
     if (typeof index !== `number` || index < 0 || index > 8) return false;
@@ -13,12 +15,6 @@ const gameBoard = (function () {
 
     currentBoard[index] = upperMark;
     return true;
-  };
-
-  const isBoardFull = () => currentBoard.every((slot) => slot !== ``);
-
-  const resetBoard = () => {
-    currentBoard = [...EMPTY_BOARD];
   };
 
   return { getBoard, placeMark, isBoardFull, resetBoard };
@@ -51,7 +47,10 @@ const gameController = (function () {
     gameBoard.resetBoard();
     activePlayer = playerOne;
     isGameOver = false;
-    console.log(gameBoard.getBoard());
+    displayController.init();
+    console.log(
+      `Game is started. Active player is ${activePlayer.getName()} (Mark: "${activePlayer.getMark()}")`
+    );
   };
 
   const playRound = (index) => {
@@ -59,7 +58,6 @@ const gameController = (function () {
       return console.log(`Game is over, please start a new game.`);
 
     const wasPlaced = gameBoard.placeMark(index, activePlayer.getMark());
-
     if (wasPlaced) {
       console.log(gameBoard.getBoard());
       const winner = checkWinner();
@@ -107,7 +105,33 @@ const gameController = (function () {
   return { initializeGame, playRound };
 })();
 
-// gameController.initializeGame();
+const displayController = (function () {
+  const domBoard = document.querySelector(`.game-board`);
+  const domBoardCells = domBoard.querySelectorAll(`.cell`);
+
+  const init = () => {
+    domBoard.addEventListener(`click`, handleCellClick);
+    updateDom();
+  };
+
+  const updateDom = () => {
+    const board = gameBoard.getBoard();
+    for (const [i, cell] of board.entries()) {
+      domBoardCells[i].textContent = cell;
+    }
+  };
+
+  function handleCellClick(e) {
+    if (!e.target.classList.contains(`cell`)) return;
+    const cell = e.target;
+    const index = [...domBoardCells].indexOf(cell);
+    gameController.playRound(index);
+    updateDom();
+  }
+  return { init };
+})();
+
+gameController.initializeGame();
 // gameController.playRound(0);
 // gameController.playRound(1);
 // gameController.playRound(2);
