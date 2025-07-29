@@ -31,16 +31,28 @@ const playerFactory = (name, marker) => {
 const gameController = (() => {
   const playerOne = playerFactory(`Asad`, `X`);
   const playerTwo = playerFactory(`Samad`, `O`);
+  let currentPlayer;
 
   const init = () => {
     gameBoard.reset();
-    const currentPlayer = playerOne;
+    currentPlayer = playerOne;
   };
 
-  const playRound = () => {};
+  const playRound = (index) => {
+    const isValidMove = gameBoard.addMark(currentPlayer.getMarker(), index);
+
+    if (isValidMove) toggleTurn();
+  };
+
+  const toggleTurn = () => {
+    currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+  };
 
   return { init, playRound };
 })();
 
-gameBoard.addMark(`X`, 0);
+gameController.init();
+gameController.playRound(0);
+console.log(gameBoard.get());
+gameController.playRound(1);
 console.log(gameBoard.get());
