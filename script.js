@@ -9,6 +9,7 @@ const gameBoard = (() => {
     if (typeof index !== "number" || isNaN(index)) return false;
     if (mark !== `X` && mark !== `O`) return false;
     if (index < 0 || index > 8) return false;
+    if (board[index]) return false;
 
     board[index] = mark;
     return true;
@@ -40,11 +41,15 @@ const gameController = (() => {
 
   const playRound = (index) => {
     const isValidMove = gameBoard.addMark(currentPlayer.getMarker(), index);
-
-    if (isValidMove) toggleTurn();
+    if (isValidMove) {
+      switchTurn();
+      console.log(gameBoard.get());
+    } else {
+      return console.log(`invalid move`);
+    }
   };
 
-  const toggleTurn = () => {
+  const switchTurn = () => {
     currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
   };
 
@@ -53,6 +58,6 @@ const gameController = (() => {
 
 gameController.init();
 gameController.playRound(0);
-console.log(gameBoard.get());
+gameController.playRound(0);
 gameController.playRound(1);
-console.log(gameBoard.get());
+gameController.playRound(0);
