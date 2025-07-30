@@ -24,9 +24,9 @@ const gameBoard = (() => {
 
 const playerFactory = (name, marker) => {
   const getName = () => name;
-  const getMarker = () => marker;
+  const getMark = () => marker;
 
-  return { getName, getMarker };
+  return { getName, getMark };
 };
 
 const gameController = (() => {
@@ -40,10 +40,16 @@ const gameController = (() => {
   };
 
   const playRound = (index) => {
-    const isValidMove = gameBoard.addMark(currentPlayer.getMarker(), index);
+    const isValidMove = gameBoard.addMark(currentPlayer.getMark(), index);
+
     if (isValidMove) {
-      switchTurn();
-      console.log(gameBoard.get());
+      const winner = checkWin();
+      if (winner) {
+        console.log(`${currentPlayer.getName()} wins.`);
+      } else {
+        switchTurn();
+        console.log(gameBoard.get());
+      }
     } else {
       return console.log(`invalid move`);
     }
@@ -53,11 +59,34 @@ const gameController = (() => {
     currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
   };
 
+  const checkWin = () => {
+    const board = gameBoard.get();
+    const WINNING_COMBOS = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    return WINNING_COMBOS.some(
+      ([a, b, c]) => board[a] && board[a] === board[b] && board[a] === board[c]
+    );
+  };
+
   return { init, playRound };
 })();
 
 gameController.init();
 gameController.playRound(0);
-gameController.playRound(0);
+gameController.playRound(2);
 gameController.playRound(1);
-gameController.playRound(0);
+gameController.playRound(3);
+gameController.playRound(5);
+gameController.playRound(4);
+gameController.playRound(6);
+gameController.playRound(7);
+gameController.playRound(8);
