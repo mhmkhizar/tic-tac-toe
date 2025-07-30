@@ -10,18 +10,18 @@ const createPlayer = (name, mark) => {
 const GameBoard = (() => {
   const createEmptyBoard = () => Array(9).fill(``);
 
-  let board = createEmptyBoard();
+  let boardState = createEmptyBoard();
 
   const getBoard = () => {
-    return [...board];
+    return [...boardState];
   };
 
   const resetBoard = () => {
-    board = createEmptyBoard();
+    boardState = createEmptyBoard();
   };
 
   const isBoardFull = () => {
-    return board.every((cell) => cell !== ``);
+    return boardState.every((cell) => cell !== ``);
   };
 
   const placeMark = (mark, index) => {
@@ -29,9 +29,9 @@ const GameBoard = (() => {
     if (typeof index !== `number` || isNaN(index)) return false;
     if (mark !== `X` && mark !== `O`) return false;
     if (index < 0 || index > 8) return false;
-    if (board[index]) return false;
+    if (boardState[index]) return false;
 
-    board[index] = mark;
+    boardState[index] = mark;
     return true;
   };
 
@@ -56,7 +56,7 @@ const GameController = (() => {
   };
 
   const hasWinner = () => {
-    const board = GameBoard.getBoard();
+    const boardState = GameBoard.getBoard();
     const WINNING_COMBINATIONS = [
       [0, 1, 2],
       [3, 4, 5],
@@ -69,8 +69,8 @@ const GameController = (() => {
     ];
 
     return WINNING_COMBINATIONS.some(([a, b, c]) => {
-      const mark = board[a];
-      return mark && mark === board[b] && mark === board[c];
+      const mark = boardState[a];
+      return mark && mark === boardState[b] && mark === boardState[c];
     });
   };
 
@@ -115,13 +115,16 @@ const GameController = (() => {
 // DISPLAY CONTROLLER MODULE
 const DisplayController = (() => {
   const updateBoardDisplay = () => {
-    const board = GameBoard.getBoard();
-    const boardCells = document.querySelectorAll(`.game-board.grid > .cell`);
+    const boardState = GameBoard.getBoard();
+    const uiBoard = document.querySelector(`.game-board`);
+    const uiBoardCells = uiBoard.querySelectorAll(`.cell`);
 
-    boardCells.forEach((cell, index) => {
-      cell.textContent = `${board[index]}`;
+    uiBoardCells.forEach((cell, index) => {
+      cell.textContent = `${boardState[index]}`;
     });
   };
 
   return { updateBoardDisplay };
 })();
+
+DisplayController.updateBoardDisplay();
