@@ -87,7 +87,7 @@ body {
   flex: 1;
 }
 
-/* GENERIC_STYLES */
+/* GENERIC STYLES */
 
 .border-all-sides {
   border: 1px solid black;
@@ -109,7 +109,7 @@ body {
   border-left: 1px solid black;
 }
 
-/* CUSTOM_STYLES */
+/* CUSTOM STYLES */
 
 .main-header {
   background-color: aquamarine;
@@ -137,6 +137,9 @@ body {
 }
 
 .game-board.grid > .cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 
