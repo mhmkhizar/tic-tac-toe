@@ -1,14 +1,32 @@
-// GAME_BOARD_OBJECT
+// PLAYER FACTORY FUNCTION
+const createPlayer = (name, mark) => {
+  const getName = () => name;
+  const getMark = () => mark;
 
-const gameBoard = (() => {
+  return { getName, getMark };
+};
+
+// GAME BOARD MODULE
+const GameBoard = (() => {
   const createEmptyBoard = () => Array(9).fill(``);
+
   let board = createEmptyBoard();
 
-  const get = () => [...board];
+  const getBoard = () => {
+    return [...board];
+  };
 
-  const addMark = (mark, index) => {
+  const resetBoard = () => {
+    board = createEmptyBoard();
+  };
+
+  const isBoardFull = () => {
+    return board.every((cell) => cell !== ``);
+  };
+
+  const placeMark = (mark, index) => {
     if (typeof mark !== `string` || mark === ``) return false;
-    if (typeof index !== "number" || isNaN(index)) return false;
+    if (typeof index !== `number` || isNaN(index)) return false;
     if (mark !== `X` && mark !== `O`) return false;
     if (index < 0 || index > 8) return false;
     if (board[index]) return false;
@@ -17,45 +35,29 @@ const gameBoard = (() => {
     return true;
   };
 
-  const reset = () => {
-    board = createEmptyBoard();
-  };
-
-  const isFull = () => board.every((slot) => slot !== ``);
-
-  return { get, addMark, reset, isFull };
+  return { getBoard, resetBoard, isBoardFull, placeMark };
 })();
 
-// PLAYERS_OBJECT
+// GAME CONTROLLER MODULE
+const GameController = (() => {
+  const player1 = createPlayer(`Asad`, `X`);
+  const player2 = createPlayer(`Samad`, `O`);
+  let activePlayer;
+  let isGameOver;
 
-const playerFactory = (name, marker) => {
-  const getName = () => name;
-  const getMark = () => marker;
-
-  return { getName, getMark };
-};
-
-// GAME_CONTROLLER_OBJECT
-
-const gameController = (() => {
-  const playerOne = playerFactory(`Asad`, `X`);
-  const playerTwo = playerFactory(`Samad`, `O`);
-  let currentPlayer;
-  let gameOver;
-
-  const init = () => {
-    gameBoard.reset();
-    currentPlayer = playerOne;
-    gameOver = false;
+  const initializeGame = () => {
+    GameBoard.resetBoard();
+    activePlayer = player1;
+    isGameOver = false;
   };
 
   const switchTurn = () => {
-    currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+    activePlayer = activePlayer === player1 ? player2 : player1;
   };
 
-  const checkWin = () => {
-    const board = gameBoard.get();
-    const WINNING_COMBOS = [
+  const hasWinner = () => {
+    const board = GameBoard.getBoard();
+    const WINNING_COMBINATIONS = [
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
@@ -66,58 +68,60 @@ const gameController = (() => {
       [2, 4, 6],
     ];
 
-    return WINNING_COMBOS.some(([a, b, c]) => {
+    return WINNING_COMBINATIONS.some(([a, b, c]) => {
       const mark = board[a];
       return mark && mark === board[b] && mark === board[c];
     });
   };
 
-  const playRound = (index) => {
-    if (gameOver) {
+  const playRound = (cellIndex) => {
+    if (isGameOver) {
       console.log(`Game over.`);
       return;
     }
 
-    const mark = currentPlayer.getMark();
-    const isValidMove = gameBoard.addMark(mark, index);
+    const currentMark = activePlayer.getMark();
+    const isValidMove = GameBoard.placeMark(currentMark, cellIndex);
 
     if (!isValidMove) {
-      console.log(`invalid move`);
+      console.log(`Invalid move`);
       return;
     }
 
-    const isWinner = checkWin();
-    const isBoardFull = gameBoard.isFull();
+    const winnerExists = hasWinner();
+    const boardIsFull = GameBoard.isBoardFull();
 
-    if (isWinner) {
-      gameOver = true;
-      console.log(`${currentPlayer.getName()} wins.`);
-      console.log(gameBoard.get());
+    if (winnerExists) {
+      isGameOver = true;
+      console.log(`${activePlayer.getName()} wins.`);
+      console.log(GameBoard.getBoard());
       return;
     }
 
-    if (isBoardFull) {
-      gameOver = true;
+    if (boardIsFull) {
+      isGameOver = true;
       console.log(`It's a draw.`);
-      console.log(gameBoard.get());
+      console.log(GameBoard.getBoard());
       return;
     }
 
     switchTurn();
-    console.log(gameBoard.get());
+    console.log(GameBoard.getBoard());
   };
 
-  return { init, playRound };
+  return { initializeGame, playRound };
 })();
 
-// DISPLAY_CONTROLLER_OBJECT
+// DISPLAY CONTROLLER MODULE
+const DisplayController = (() => {
+  const updateBoardDisplay = () => {
+    const board = GameBoard.getBoard();
+    const boardCells = document.querySelectorAll(`.game-board.grid > .cell`);
 
-const displayController = (() => {})();
+    boardCells.forEach((cell, index) => {
+      cell.textContent = `${board[index]}`;
+    });
+  };
 
-gameController.init();
-gameController.playRound(0);
-gameController.playRound(8);
-gameController.playRound(1);
-gameController.playRound(7);
-gameController.playRound(5);
-gameController.playRound(6);
+  return { updateBoardDisplay };
+})();
