@@ -113,18 +113,30 @@ const GameController = (() => {
 })();
 
 // DISPLAY CONTROLLER MODULE
-const DisplayController = (() => {
-  const updateBoardDisplay = () => {
-    const boardState = GameBoard.getBoard();
-    const uiBoard = document.querySelector(`.game-board`);
-    const uiBoardCells = uiBoard.querySelectorAll(`.cell`);
+const UiController = (() => {
+  const uiBoard = document.querySelector(`.game-board`);
+  const uiBoardCells = uiBoard.querySelectorAll(`.cell`);
 
+  const handleUiBoardClick = () => {
+    uiBoard.addEventListener(`click`, (e) => {
+      if (!e.target.classList.contains(`cell`)) return;
+
+      const clickedCell = e.target;
+      GameController.playRound(Number(clickedCell.dataset.index));
+      updateUiBoard();
+    });
+  };
+
+  const updateUiBoard = () => {
+    const boardState = GameBoard.getBoard();
     uiBoardCells.forEach((cell, index) => {
       cell.textContent = `${boardState[index]}`;
     });
   };
 
-  return { updateBoardDisplay };
+  return { handleUiBoardClick, updateUiBoard };
 })();
 
-DisplayController.updateBoardDisplay();
+GameController.initializeGame();
+UiController.handleUiBoardClick();
+UiController.updateUiBoard();
