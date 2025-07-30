@@ -1,4 +1,4 @@
-/* RESETS_START */
+/* RESETS */
 
 *,
 *::before,
@@ -65,9 +65,7 @@ h6 {
   isolation: isolate;
 }
 
-/* RESETS_END */
-
-/* SETUP_START */
+/* SETUP */
 
 html {
   font-size: 62.5%;
@@ -89,9 +87,7 @@ body {
   flex: 1;
 }
 
-/* SETUP_END */
-
-/* GENERIC_STYLES_START */
+/* GENERIC_STYLES */
 
 .border-all-sides {
   border: 1px solid black;
@@ -113,9 +109,7 @@ body {
   border-left: 1px solid black;
 }
 
-/* GENERIC_STYLES_END */
-
-/* CUSTOM_STYLES_START */
+/* CUSTOM_STYLES */
 
 .main-header {
   background-color: aquamarine;
@@ -151,5 +145,3 @@ body {
   text-align: center;
   padding: 0.8rem 0rem;
 }
-
-/* CUSTOM_STYLES_END */
