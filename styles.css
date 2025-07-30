@@ -129,14 +129,14 @@ body {
   margin-bottom: 4.8rem;
 }
 
-.main-section > .game-board.grid {
+.main-section .game-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 50vmin;
   aspect-ratio: 1 / 1;
 }
 
-.game-board.grid > .cell {
+.game-board .cell {
   display: flex;
   justify-content: center;
   align-items: center;
