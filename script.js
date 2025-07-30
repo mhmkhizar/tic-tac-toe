@@ -60,9 +60,10 @@ const gameController = (() => {
       [2, 4, 6],
     ];
 
-    return WINNING_COMBOS.some(
-      ([a, b, c]) => board[a] && board[a] === board[b] && board[a] === board[c]
-    );
+    return WINNING_COMBOS.some(([a, b, c]) => {
+      const mark = board[a];
+      return mark && mark === board[b] && mark === board[c];
+    });
   };
 
   const playRound = (index) => {
