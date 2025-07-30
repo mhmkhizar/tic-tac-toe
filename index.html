@@ -8,34 +8,36 @@
     <title>Tic Tac Toe</title>
   </head>
   <body>
-    <header class="header main-header">
-      <h1 class="logo text-log">Tic Tac Toe</h1>
-    </header>
-    <main class="section main-section">
-      <div class="grid game-board">
-        <div class="cell cell-1"></div>
-        <div class="cell cell-2"></div>
-        <div class="cell cell-3"></div>
-        <div class="cell cell-4"></div>
-        <div class="cell cell-5"></div>
-        <div class="cell cell-6"></div>
-        <div class="cell cell-7"></div>
-        <div class="cell cell-8"></div>
-        <div class="cell cell-9"></div>
-      </div>
-    </main>
-    <footer class="footer main-footer">
-      <p class="text">
-        Copyright © The Odin Project 2025 — Created By
-        <a
-          class="link"
-          id="copyright-link"
-          href="http://github.com/mhmkhizar"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Muhammad Khizar</a
-        >
-      </p>
-    </footer>
+    <div class="wrapper main-wrapper">
+      <header class="header main-header">
+        <h1 class="logo text-logo">Tic Tac Toe</h1>
+      </header>
+      <main class="section main-section">
+        <div class="grid game-board">
+          <div class="cell cell-1 border-right border-bottom"></div>
+          <div class="cell cell-2 border-bottom"></div>
+          <div class="cell cell-3 border-left border-bottom"></div>
+          <div class="cell cell-4 border-right"></div>
+          <div class="cell cell-5"></div>
+          <div class="cell cell-6 border-left"></div>
+          <div class="cell cell-7 border-top border-right"></div>
+          <div class="cell cell-8 border-top"></div>
+          <div class="cell cell-9 border-top border-left"></div>
+        </div>
+      </main>
+      <footer class="footer main-footer">
+        <p class="text">
+          Copyright © The Odin Project 2025 — Created By
+          <a
+            class="link"
+            id="copyright-link"
+            href="http://github.com/mhmkhizar"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Muhammad Khizar</a
+          >
+        </p>
+      </footer>
+    </div>
   </body>
 </html>
