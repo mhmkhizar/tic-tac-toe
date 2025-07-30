@@ -1,3 +1,5 @@
+// GAME_BOARD_OBJECT
+
 const gameBoard = (() => {
   const createEmptyBoard = () => Array(9).fill(``);
   let board = createEmptyBoard();
@@ -24,12 +26,16 @@ const gameBoard = (() => {
   return { get, addMark, reset, isFull };
 })();
 
+// PLAYERS_OBJECT
+
 const playerFactory = (name, marker) => {
   const getName = () => name;
   const getMark = () => marker;
 
   return { getName, getMark };
 };
+
+// GAME_CONTROLLER_OBJECT
 
 const gameController = (() => {
   const playerOne = playerFactory(`Asad`, `X`);
@@ -103,6 +109,10 @@ const gameController = (() => {
 
   return { init, playRound };
 })();
+
+// DISPLAY_CONTROLLER_OBJECT
+
+const displayController = (() => {})();
 
 gameController.init();
 gameController.playRound(0);
