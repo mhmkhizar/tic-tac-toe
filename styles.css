@@ -132,6 +132,7 @@ body {
 .main-section .game-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   width: 50vmin;
   aspect-ratio: 1 / 1;
 }
