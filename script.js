@@ -1,6 +1,7 @@
 const gameBoard = (() => {
-  const EMPTY_BOARD = [``, ``, ``, ``, ``, ``, ``, ``, ``];
-  let board = [...EMPTY_BOARD];
+  const createEmptyBoard = () => Array(9).fill(``);
+
+  let board = createEmptyBoard();
 
   const get = () => [...board];
 
@@ -16,10 +17,12 @@ const gameBoard = (() => {
   };
 
   const reset = () => {
-    board = [...EMPTY_BOARD];
+    board = createEmptyBoard();
   };
 
-  return { get, addMark, reset };
+  const isFull = () => board.every((slot) => slot !== ``);
+
+  return { get, addMark, reset, isFull };
 })();
 
 const playerFactory = (name, marker) => {
@@ -33,26 +36,12 @@ const gameController = (() => {
   const playerOne = playerFactory(`Asad`, `X`);
   const playerTwo = playerFactory(`Samad`, `O`);
   let currentPlayer;
+  let gameOver;
 
   const init = () => {
     gameBoard.reset();
     currentPlayer = playerOne;
-  };
-
-  const playRound = (index) => {
-    const isValidMove = gameBoard.addMark(currentPlayer.getMark(), index);
-
-    if (isValidMove) {
-      const winner = checkWin();
-      if (winner) {
-        console.log(`${currentPlayer.getName()} wins.`);
-      } else {
-        switchTurn();
-        console.log(gameBoard.get());
-      }
-    } else {
-      return console.log(`invalid move`);
-    }
+    gameOver = false;
   };
 
   const switchTurn = () => {
@@ -72,9 +61,45 @@ const gameController = (() => {
       [2, 4, 6],
     ];
 
-    return WINNING_COMBOS.some(
-      ([a, b, c]) => board[a] && board[a] === board[b] && board[a] === board[c]
-    );
+    return WINNING_COMBOS.some(([a, b, c]) => {
+      const mark = board[a];
+      mark && mark === board[b] && mark === board[c];
+    });
+  };
+
+  const playRound = (index) => {
+    if (gameOver) {
+      console.log(`Game over.`);
+      return;
+    }
+
+    const mark = currentPlayer.getMark();
+    const isValidMove = gameBoard.addMark(mark, index);
+
+    if (!isValidMove) {
+      console.log(`invalid move`);
+      return;
+    }
+
+    const isWinner = checkWin();
+    const isBoardFull = gameBoard.isFull();
+
+    if (isWinner) {
+      gameOver = true;
+      console.log(`${currentPlayer.getName()} wins.`);
+      console.log(gameBoard.get());
+      return;
+    }
+
+    if (isBoardFull) {
+      gameOver = true;
+      console.log(`It's a draw.`);
+      console.log(gameBoard.get());
+      return;
+    }
+
+    switchTurn();
+    console.log(gameBoard.get());
   };
 
   return { init, playRound };
