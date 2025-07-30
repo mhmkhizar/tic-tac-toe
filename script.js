@@ -1,6 +1,5 @@
 const gameBoard = (() => {
   const createEmptyBoard = () => Array(9).fill(``);
-
   let board = createEmptyBoard();
 
   const get = () => [...board];
@@ -61,10 +60,9 @@ const gameController = (() => {
       [2, 4, 6],
     ];
 
-    return WINNING_COMBOS.some(([a, b, c]) => {
-      const mark = board[a];
-      mark && mark === board[b] && mark === board[c];
-    });
+    return WINNING_COMBOS.some(
+      ([a, b, c]) => board[a] && board[a] === board[b] && board[a] === board[c]
+    );
   };
 
   const playRound = (index) => {
@@ -107,11 +105,8 @@ const gameController = (() => {
 
 gameController.init();
 gameController.playRound(0);
-gameController.playRound(2);
-gameController.playRound(1);
-gameController.playRound(3);
-gameController.playRound(5);
-gameController.playRound(4);
-gameController.playRound(6);
-gameController.playRound(7);
 gameController.playRound(8);
+gameController.playRound(1);
+gameController.playRound(7);
+gameController.playRound(5);
+gameController.playRound(6);
