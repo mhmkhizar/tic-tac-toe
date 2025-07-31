@@ -120,6 +120,10 @@ body {
   align-items: center;
 }
 
+.main-header .text-logo {
+  font-size: 3.6rem;
+}
+
 .main-header .players-info-section {
   display: flex;
   justify-content: center;
@@ -131,8 +135,18 @@ body {
   font-size: 2rem;
 }
 
-.main-header .text-logo {
-  font-size: 3.6rem;
+.main-header .settings-section {
+  margin-left: 2.4rem;
+  display: flex;
+  gap: 1.2rem;
+}
+
+.main-header .settings-btn {
+  background-color: inherit;
+  padding: 0.4em 0.8em;
+  border: 1px solid black;
+  border-radius: 0.4rem;
+  cursor: pointer;
 }
 
 .main-section {
