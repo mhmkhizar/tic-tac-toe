@@ -114,7 +114,21 @@ body {
 .main-header {
   background-color: aquamarine;
   text-align: center;
-  padding: 0.4rem 0rem;
+  padding: 1.6rem 3.2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.main-header .players-info-block {
+  display: flex;
+  justify-content: center;
+  gap: 1.6rem;
+  margin-left: auto;
+}
+
+.players-info-block .text {
+  font-size: 2rem;
 }
 
 .main-header .text-logo {
@@ -146,5 +160,6 @@ body {
 .main-footer {
   background-color: aquamarine;
   text-align: center;
-  padding: 0.8rem 0rem;
+  padding: 1.6rem 0rem;
+  line-height: 1;
 }
