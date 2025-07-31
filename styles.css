@@ -120,14 +120,14 @@ body {
   align-items: center;
 }
 
-.main-header .players-info-block {
+.main-header .players-info-section {
   display: flex;
   justify-content: center;
   gap: 1.6rem;
   margin-left: auto;
 }
 
-.players-info-block .text {
+.players-info-section .text {
   font-size: 2rem;
 }
 
