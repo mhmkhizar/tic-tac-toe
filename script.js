@@ -49,6 +49,7 @@ const GameController = (() => {
     GameBoard.resetBoard();
     activePlayer = player1;
     isGameOver = false;
+    UiController.updateUiBoard();
   };
 
   const switchTurn = () => {
@@ -127,6 +128,13 @@ const UiController = (() => {
     });
   };
 
+  const handleResetGameBtnClick = () => {
+    const resetGameBtn = document.querySelector(`#resetGameBtn`);
+    resetGameBtn.addEventListener(`click`, (e) => {
+      GameController.initializeGame();
+    });
+  };
+
   const updateUiBoard = () => {
     const boardState = GameBoard.getBoard();
     uiBoardCells.forEach((cell, index) => {
@@ -134,9 +142,9 @@ const UiController = (() => {
     });
   };
 
-  return { handleUiBoardClick, updateUiBoard };
+  return { handleUiBoardClick, updateUiBoard, handleResetGameBtnClick };
 })();
 
 GameController.initializeGame();
 UiController.handleUiBoardClick();
-UiController.updateUiBoard();
+UiController.handleResetGameBtnClick();
