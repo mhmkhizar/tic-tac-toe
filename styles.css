@@ -115,7 +115,6 @@ body {
   background-color: aquamarine;
   text-align: center;
   padding: 0.4rem 0rem;
-  margin-bottom: 4.8rem;
 }
 
 .main-header .text-logo {
@@ -126,14 +125,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 4.8rem;
+  justify-content: center;
 }
 
 .main-section .game-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  width: 50vmin;
+  width: 60vmin;
   aspect-ratio: 1 / 1;
 }
 
