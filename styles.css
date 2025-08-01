@@ -1,3 +1,18 @@
+/* CSS CUSTOM PROPERTIES */
+:root {
+  /* Colors */
+  --color-primary: #2563eb;
+  --color-secondary: #64748b;
+  --color-background: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-text: #1e293b;
+  --color-text-light: #64748b;
+  --color-border: #d1d5db;
+  --color-hover: #f8fafc;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+}
+
 /* RESETS */
 *,
 *::before,
@@ -19,6 +34,8 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 img,
@@ -85,16 +102,19 @@ body {
 }
 
 .main-header {
-  background-color: aquamarine;
+  background-color: var(--color-surface);
   text-align: center;
   padding: 1.6rem 3.2rem;
   line-height: 1;
   display: flex;
   align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .main-header .text-logo {
   font-size: 3.6rem;
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .main-header .players-info-section {
@@ -106,6 +126,7 @@ body {
 
 .players-info-section .text {
   font-size: 2rem;
+  color: var(--color-text);
 }
 
 .main-header .settings-section {
@@ -123,39 +144,48 @@ body {
 }
 
 .main-footer {
-  background-color: aquamarine;
+  background-color: var(--color-surface);
   text-align: center;
   padding: 1.6rem 0rem;
   line-height: 1;
+  color: var(--color-text-light);
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* COMPONENTS */
 .border-all-sides {
-  border: 1px solid black;
+  border: 1px solid var(--color-border);
 }
 
 .border-top {
-  border-top: 1px solid black;
+  border-top: 1px solid var(--color-border);
 }
 
 .border-right {
-  border-right: 1px solid black;
+  border-right: 1px solid var(--color-border);
 }
 
 .border-bottom {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .border-left {
-  border-left: 1px solid black;
+  border-left: 1px solid var(--color-border);
 }
 
 .btn {
-  background-color: inherit;
-  padding: 0.4em 0.8em;
-  border: 1px solid black;
-  border-radius: 0.4rem;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.8em 1.6em;
+  border: none;
+  border-radius: 0.6rem;
   cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #1d4ed8;
 }
 
 .game-board {
@@ -164,6 +194,10 @@ body {
   grid-template-rows: repeat(3, 1fr);
   width: 60vmin;
   aspect-ratio: 1 / 1;
+  background-color: var(--color-surface);
+  border-radius: 0.8rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .game-board .cell {
@@ -172,6 +206,15 @@ body {
   align-items: center;
   cursor: pointer;
   font-size: 8vmin;
+  font-weight: 600;
+  background-color: var(--color-background);
+  transition: background-color 0.2s ease;
+  border-radius: 0.4rem;
+  margin: 0.2rem;
+}
+
+.game-board .cell:hover {
+  background-color: var(--color-hover);
 }
 
 .modals-section .modal {
@@ -181,9 +224,11 @@ body {
   transform: translate(-50%, -50%);
   margin: 0;
   padding: 4rem;
-  border: 1px solid black;
+  border: 1px solid var(--color-border);
   border-radius: 0.8rem;
   text-align: center;
+  background-color: var(--color-surface);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
 }
 
 .player-names-modal .modal-form {
@@ -196,8 +241,15 @@ body {
 
 .modal-form input {
   width: 24rem;
-  padding: 0.3em 0.6em;
-  border-radius: 0.2rem;
+  padding: 0.8em 1.2em;
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  background-color: var(--color-background);
+}
+
+.modal-form input:focus {
+  outline: none;
+  border-color: var(--color-primary);
 }
 
 .modal-form input:last-of-type {
@@ -206,4 +258,15 @@ body {
 
 .game-over-modal .result-text {
   margin-bottom: 1.6rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-success);
+}
+
+.attr-link {
+  color: #1d4ed8;
+}
+
+.attr-link:hover {
+  color: #2563eb;
 }
