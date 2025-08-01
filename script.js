@@ -123,6 +123,8 @@ const UiController = (() => {
 
   const setNamesModal = document.querySelector(`#setNamesModal`);
 
+  //heelo
+
   const showSetNamesModal = () => {
     setNamesButton.addEventListener(`click`, (e) => {
       setNamesModal.show();
