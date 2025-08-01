@@ -122,9 +122,6 @@ const UiController = (() => {
   const resetButton = document.querySelector(`#resetButton`);
 
   const setNamesModal = document.querySelector(`#setNamesModal`);
-
-  //heelo
-
   const showSetNamesModal = () => {
     setNamesButton.addEventListener(`click`, (e) => {
       setNamesModal.show();
