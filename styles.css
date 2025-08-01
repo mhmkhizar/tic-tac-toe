@@ -178,16 +178,33 @@ body {
   line-height: 1;
 }
 
-.dialogs-section .game-over-dialog {
+.dialogs-section .dialog {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: 0;
-  padding: 4rem 12rem;
+  padding: 4rem;
   border: 1px solid black;
-  border-radius: 1rem;
+  border-radius: 0.8rem;
   text-align: center;
+}
+
+.set-names-dialog .dialog-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.dialog-form input {
+  width: 24rem;
+  padding: 0.2em 0.4em;
+}
+
+.dialog-form input:last-of-type {
+  margin-bottom: 0.8rem;
 }
 
 .game-over-dialog .result-text {
