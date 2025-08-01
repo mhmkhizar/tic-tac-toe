@@ -1,16 +1,16 @@
-const boardElement = document.querySelector(".game-board");
-const boardCells = boardElement.querySelectorAll(".cell");
-const setNamesButton = document.querySelector("#setNamesButton");
-const resetButton = document.querySelector("#resetButton");
-const gameOverModal = document.querySelector("#gameOverModal");
-const resultMessage = gameOverModal.querySelector("#resultText");
-const restartButton = gameOverModal.querySelector("#restartButton");
-const playerNamesModal = document.querySelector("#playerNamesModal");
-const namesModalForm = playerNamesModal.querySelector("#namesModalForm");
-const name1Input = namesModalForm.querySelector("#name1Input");
-const name2Input = namesModalForm.querySelector("#name2Input");
-const player1NamePara = document.querySelector("#player1NamePara");
-const player2NamePara = document.querySelector("#player2NamePara");
+const boardElement = document.querySelector(`.game-board`);
+const boardCells = boardElement.querySelectorAll(`.cell`);
+const setNamesButton = document.querySelector(`#setNamesButton`);
+const resetButton = document.querySelector(`#resetButton`);
+const gameOverModal = document.querySelector(`#gameOverModal`);
+const resultMessage = gameOverModal.querySelector(`#resultText`);
+const restartButton = gameOverModal.querySelector(`#restartButton`);
+const playerNamesModal = document.querySelector(`#playerNamesModal`);
+const namesModalForm = playerNamesModal.querySelector(`#namesModalForm`);
+const name1Input = namesModalForm.querySelector(`#name1Input`);
+const name2Input = namesModalForm.querySelector(`#name2Input`);
+const player1NamePara = document.querySelector(`#player1NamePara`);
+const player2NamePara = document.querySelector(`#player2NamePara`);
 
 if (
   !boardElement ||
@@ -26,8 +26,8 @@ if (
   !player1NamePara ||
   !player2NamePara
 ) {
-  console.error("Required DOM elements not found");
-  throw new Error("DOM elements missing");
+  console.error(`Required DOM elements not found`);
+  throw new Error(`DOM elements missing`);
 }
 
 // PLAYER FACTORY FUNCTION
@@ -46,7 +46,7 @@ const createPlayer = (name, mark) => {
 
 // GAME BOARD MODULE
 const GameBoard = (() => {
-  const createEmptyBoard = () => Array(9).fill("");
+  const createEmptyBoard = () => Array(9).fill(``);
 
   let boardState = createEmptyBoard();
 
@@ -59,7 +59,7 @@ const GameBoard = (() => {
   };
 
   const isBoardFull = () => {
-    return boardState.every((cell) => cell !== "");
+    return boardState.every((cell) => cell !== ``);
   };
 
   const placeMark = (mark, index) => {
@@ -76,8 +76,8 @@ const GameBoard = (() => {
 
 // GAME CONTROLLER MODULE
 const GameController = (() => {
-  const player1 = createPlayer("Player: 1 (X)", "X");
-  const player2 = createPlayer("Player: 2 (O)", "O");
+  const player1 = createPlayer(`Player: 1 (X)`, `X`);
+  const player2 = createPlayer(`Player: 2 (O)`, `O`);
   let activePlayer;
   let isGameOver;
 
@@ -167,20 +167,20 @@ const UIController = (() => {
   };
 
   const initializeListeners = () => {
-    boardElement.addEventListener("click", (e) => {
-      if (!e.target.classList.contains("cell")) return;
+    boardElement.addEventListener(`click`, (e) => {
+      if (!e.target.classList.contains(`cell`)) return;
       const clickedCell = e.target;
       GameController.playRound(Number(clickedCell.dataset.index));
       updateBoardDisplay();
     });
 
-    setNamesButton.addEventListener("click", () => {
-      name1Input.value = "";
-      name2Input.value = "";
+    setNamesButton.addEventListener(`click`, () => {
+      name1Input.value = ``;
+      name2Input.value = ``;
       playerNamesModal.showModal();
     });
 
-    namesModalForm.addEventListener("submit", (e) => {
+    namesModalForm.addEventListener(`submit`, (e) => {
       e.preventDefault();
       const name1 = name1Input.value.trim();
       const name2 = name2Input.value.trim();
@@ -190,11 +190,11 @@ const UIController = (() => {
       playerNamesModal.close();
     });
 
-    resetButton.addEventListener("click", () => {
+    resetButton.addEventListener(`click`, () => {
       GameController.initializeGame();
     });
 
-    restartButton.addEventListener("click", () => {
+    restartButton.addEventListener(`click`, () => {
       GameController.initializeGame();
       gameOverModal.close();
     });
