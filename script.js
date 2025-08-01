@@ -49,7 +49,11 @@ const GameController = (() => {
     GameBoard.resetBoard();
     activePlayer = player1;
     isGameOver = false;
-    UiController.updateUiBoard();
+
+    UiController.updateBoardDisplay();
+    UiController.handleBoardClick();
+    UiController.handleResetButtonClick();
+    UiController.handleRestartButtonClick();
   };
 
   const switchTurn = () => {
@@ -76,38 +80,29 @@ const GameController = (() => {
   };
 
   const playRound = (cellIndex) => {
-    if (isGameOver) {
-      console.log(`Game over.`);
-      return;
-    }
+    if (isGameOver) return;
 
     const currentMark = activePlayer.getMark();
     const isValidMove = GameBoard.placeMark(currentMark, cellIndex);
 
-    if (!isValidMove) {
-      console.log(`Invalid move`);
-      return;
-    }
+    if (!isValidMove) return;
 
     const winnerExists = hasWinner();
     const boardIsFull = GameBoard.isBoardFull();
 
     if (winnerExists) {
       isGameOver = true;
-      console.log(`${activePlayer.getName()} wins.`);
-      console.log(GameBoard.getBoard());
+      UiController.showGameOverModal(`${activePlayer.getName()} wins. 🥳`);
       return;
     }
 
     if (boardIsFull) {
       isGameOver = true;
-      console.log(`It's a draw.`);
-      console.log(GameBoard.getBoard());
+      UiController.showGameOverModal(`Ohho, it's a draw. 🤝`);
       return;
     }
 
     switchTurn();
-    console.log(GameBoard.getBoard());
   };
 
   return { initializeGame, playRound };
@@ -115,36 +110,55 @@ const GameController = (() => {
 
 // DISPLAY CONTROLLER MODULE
 const UiController = (() => {
-  const uiBoard = document.querySelector(`.game-board`);
-  const uiBoardCells = uiBoard.querySelectorAll(`.cell`);
+  const boardElement = document.querySelector(`.game-board`);
+  const boardCells = boardElement.querySelectorAll(`.cell`);
+  const gameOverModal = document.querySelector(`#gameOverDialog`);
+  const resultMessage = gameOverModal.querySelector(`#resultText`);
 
-  const handleUiBoardClick = () => {
-    uiBoard.addEventListener(`click`, (e) => {
+  const showGameOverModal = (message) => {
+    gameOverModal.showModal();
+    resultMessage.textContent = message;
+  };
+
+  const handleBoardClick = () => {
+    boardElement.addEventListener(`click`, (e) => {
       if (!e.target.classList.contains(`cell`)) return;
 
       const clickedCell = e.target;
       GameController.playRound(Number(clickedCell.dataset.index));
-      updateUiBoard();
+      updateBoardDisplay();
     });
   };
 
-  const handleResetGameBtnClick = () => {
-    const resetGameBtn = document.querySelector(`#resetGameBtn`);
-    resetGameBtn.addEventListener(`click`, (e) => {
+  const handleResetButtonClick = () => {
+    const resetButton = document.querySelector(`#resetGameBtn`);
+    resetButton.addEventListener(`click`, () => {
       GameController.initializeGame();
     });
   };
 
-  const updateUiBoard = () => {
+  const handleRestartButtonClick = () => {
+    const restartButton = document.querySelector(`#restartGameBtn`);
+    restartButton.addEventListener(`click`, () => {
+      GameController.initializeGame();
+      gameOverModal.close();
+    });
+  };
+
+  const updateBoardDisplay = () => {
     const boardState = GameBoard.getBoard();
-    uiBoardCells.forEach((cell, index) => {
+    boardCells.forEach((cell, index) => {
       cell.textContent = `${boardState[index]}`;
     });
   };
 
-  return { handleUiBoardClick, updateUiBoard, handleResetGameBtnClick };
+  return {
+    updateBoardDisplay,
+    handleBoardClick,
+    handleResetButtonClick,
+    handleRestartButtonClick,
+    showGameOverModal,
+  };
 })();
 
 GameController.initializeGame();
-UiController.handleUiBoardClick();
-UiController.handleResetGameBtnClick();
