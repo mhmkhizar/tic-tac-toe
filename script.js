@@ -14,8 +14,8 @@ const player2NamePara = document.querySelector(`#player2NamePara`);
 
 // PLAYER FACTORY FUNCTION
 const createPlayer = (name, mark) => {
-  const playerName = name;
-  const playerMark = mark;
+  let playerName = name;
+  let playerMark = mark;
 
   const getName = () => playerName;
   const getMark = () => playerMark;
@@ -60,8 +60,8 @@ const GameBoard = (() => {
 
 // GAME CONTROLLER MODULE
 const GameController = (() => {
-  const player1 = createPlayer(`Hello`, `X`);
-  const player2 = createPlayer(`Bello`, `O`);
+  const player1 = createPlayer(`Player: 1 (X)`, `X`);
+  const player2 = createPlayer(`Player: 2 (O)`, `O`);
   let activePlayer;
   let isGameOver;
 
@@ -155,7 +155,14 @@ const UiController = (() => {
 
   const handleSetNamesButtonClick = () => {
     setNamesButton.addEventListener(`click`, (e) => {
+      name1Input.value = ``;
+      name2Input.value = ``;
       playerNamesModal.showModal();
+      namesModalForm.addEventListener(`submit`, (e) => {
+        GameController.player1.setName(`${name1Input.value} (X)`);
+        GameController.player2.setName(`${name2Input.value} (O)`);
+        updatePlayerNames();
+      });
     });
   };
 
