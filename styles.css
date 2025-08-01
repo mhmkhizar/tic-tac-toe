@@ -198,12 +198,13 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1.2rem;
 }
 
 .modal-form input {
   width: 24rem;
-  padding: 0.2em 0.4em;
+  padding: 0.3em 0.6em;
+  border-radius: 0.2rem;
 }
 
 .modal-form input:last-of-type {
