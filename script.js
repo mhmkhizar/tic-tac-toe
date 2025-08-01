@@ -67,7 +67,6 @@ const GameBoard = (() => {
     if (mark !== `X` && mark !== `O`) return false;
     if (index < 0 || index > 8) return false;
     if (boardState[index]) return false;
-
     boardState[index] = mark;
     return true;
   };
@@ -153,7 +152,7 @@ const UIController = (() => {
     resultMessage.textContent = message;
   };
 
-  const updateDisplayPlayerNames = () => {
+  const updatePlayerNames = () => {
     player1NamePara.textContent = GameController.player1.getName();
     player2NamePara.textContent = GameController.player2.getName();
   };
@@ -187,7 +186,7 @@ const UIController = (() => {
       const name2 = name2Input.value.trim();
       GameController.player1.setName(`${name1} (X)`);
       GameController.player2.setName(`${name2} (O)`);
-      updateDisplayPlayerNames();
+      updatePlayerNames();
       playerNamesModal.close();
     });
 
@@ -201,6 +200,7 @@ const UIController = (() => {
     });
   };
 
+  updatePlayerNames();
   initializeListeners();
 
   return {
