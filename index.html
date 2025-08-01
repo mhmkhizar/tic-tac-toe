@@ -20,9 +20,9 @@
           </button>
         </div>
         <div class="players-info-section">
-          <p class="text player-info">Player: 1 (X)</p>
+          <p class="text player-info" id="player1Name"></p>
           <span class="text vs-emoji">🆚</span>
-          <p class="text player-info">Player: 2 (O)</p>
+          <p class="text player-info" id="player2Name"></p>
         </div>
       </header>
       <main class="section main-section">
@@ -65,19 +65,19 @@
           Restart Game
         </button>
       </dialog>
-      <dialog class="modal set-names-modal" id="setNamesModal" open>
-        <form class="form modal-form" method="dialog">
+      <dialog class="modal player-names-modal" id="playerNamesModal">
+        <form class="form modal-form" id="namesModalForm" method="dialog">
           <input
             type="text"
-            name="player1name"
-            id="player1name"
+            name="player1Name"
+            id="name1Input"
             placeholder="Player: 1 (X)'s Name Here"
             required
           />
           <input
             type="text"
-            name="player2name"
-            id="player2name"
+            name="player2Name"
+            id="name2Input"
             placeholder="Player: 2 (O)'s Name Here"
             required
           />
