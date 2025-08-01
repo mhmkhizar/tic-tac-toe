@@ -1,3 +1,15 @@
+const boardElement = document.querySelector(`.game-board`);
+const boardCells = boardElement.querySelectorAll(`.cell`);
+const setNamesButton = document.querySelector(`#setNamesButton`);
+const resetButton = document.querySelector(`#resetButton`);
+const gameOverModal = document.querySelector(`#gameOverModal`);
+const resultMessage = gameOverModal.querySelector(`#resultText`);
+const restartButton = gameOverModal.querySelector(`#restartButton`);
+const playerNamesModal = document.querySelector(`#playerNamesModal`);
+const namesModalForm = playerNamesModal.querySelector(`#namesModalForm`);
+const name1Input = namesModalForm.querySelector(`#name1Input`);
+const name2Input = namesModalForm.querySelector(`#name2Input`);
+
 // PLAYER FACTORY FUNCTION
 const createPlayer = (name, mark) => {
   const getName = () => name;
@@ -40,8 +52,8 @@ const GameBoard = (() => {
 
 // GAME CONTROLLER MODULE
 const GameController = (() => {
-  const player1 = createPlayer(`Asad`, `X`);
-  const player2 = createPlayer(`Samad`, `O`);
+  const player1 = createPlayer(`Hello`, `X`);
+  const player2 = createPlayer(`Bello`, `O`);
   let activePlayer;
   let isGameOver;
 
@@ -49,12 +61,8 @@ const GameController = (() => {
     GameBoard.resetBoard();
     activePlayer = player1;
     isGameOver = false;
-
     UiController.updateBoardDisplay();
-    UiController.handleBoardClick();
-    UiController.handleResetButtonClick();
-    UiController.handleRestartButtonClick();
-    UiController.handleSetNamesButtonClick();
+    UiController.clickListners();
   };
 
   const switchTurn = () => {
@@ -106,32 +114,17 @@ const GameController = (() => {
     switchTurn();
   };
 
-  return { initializeGame, playRound };
+  return {
+    initializeGame,
+    playRound,
+  };
 })();
 
 // DISPLAY CONTROLLER MODULE
 const UiController = (() => {
-  const boardElement = document.querySelector(`.game-board`);
-  const boardCells = boardElement.querySelectorAll(`.cell`);
-
-  const gameOverModal = document.querySelector(`#gameOverModal`);
-  const resultMessage = gameOverModal.querySelector(`#resultText`);
-  const restartButton = gameOverModal.querySelector(`#restartButton`);
-
-  const setNamesButton = document.querySelector(`#setNamesButton`);
-  const resetButton = document.querySelector(`#resetButton`);
-
-  const setNamesModal = document.querySelector(`#setNamesModal`);
-
   const showGameOverModal = (message) => {
     gameOverModal.showModal();
     resultMessage.textContent = message;
-  };
-
-  const handleSetNamesButtonClick = () => {
-    setNamesButton.addEventListener(`click`, (e) => {
-      setNamesModal.show();
-    });
   };
 
   const handleBoardClick = () => {
@@ -141,6 +134,12 @@ const UiController = (() => {
       const clickedCell = e.target;
       GameController.playRound(Number(clickedCell.dataset.index));
       updateBoardDisplay();
+    });
+  };
+
+  const handleSetNamesButtonClick = () => {
+    setNamesButton.addEventListener(`click`, (e) => {
+      playerNamesModal.showModal();
     });
   };
 
@@ -164,13 +163,17 @@ const UiController = (() => {
     });
   };
 
+  const clickListners = () => {
+    handleBoardClick();
+    handleSetNamesButtonClick();
+    handleResetButtonClick();
+    handleRestartButtonClick();
+  };
+
   return {
     updateBoardDisplay,
-    handleBoardClick,
-    handleResetButtonClick,
-    handleRestartButtonClick,
-    handleSetNamesButtonClick,
     showGameOverModal,
+    clickListners,
   };
 })();
 
