@@ -54,7 +54,7 @@ const GameController = (() => {
     UiController.handleBoardClick();
     UiController.handleResetButtonClick();
     UiController.handleRestartButtonClick();
-    UiController.showSetNamesModal();
+    UiController.handleSetNamesButtonClick();
   };
 
   const switchTurn = () => {
@@ -122,15 +122,16 @@ const UiController = (() => {
   const resetButton = document.querySelector(`#resetButton`);
 
   const setNamesModal = document.querySelector(`#setNamesModal`);
-  const showSetNamesModal = () => {
-    setNamesButton.addEventListener(`click`, (e) => {
-      setNamesModal.show();
-    });
-  };
 
   const showGameOverModal = (message) => {
     gameOverModal.showModal();
     resultMessage.textContent = message;
+  };
+
+  const handleSetNamesButtonClick = () => {
+    setNamesButton.addEventListener(`click`, (e) => {
+      setNamesModal.show();
+    });
   };
 
   const handleBoardClick = () => {
@@ -168,8 +169,8 @@ const UiController = (() => {
     handleBoardClick,
     handleResetButtonClick,
     handleRestartButtonClick,
+    handleSetNamesButtonClick,
     showGameOverModal,
-    showSetNamesModal,
   };
 })();
 
