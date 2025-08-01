@@ -193,7 +193,7 @@ body {
   text-align: center;
 }
 
-.set-names-modal .modal-form {
+.player-names-modal .modal-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
