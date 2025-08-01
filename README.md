@@ -2,8 +2,6 @@
 
 A modern, responsive implementation of the classic Tic Tac Toe game built with HTML, CSS, and JavaScript. This project demonstrates clean code architecture using the Module Pattern and Factory Functions.
 
-![Tic Tac Toe Game Preview](preview.png) <!-- You can add a screenshot if you have one -->
-
 ## Features
 
 - **Two-player gameplay**: Play against a friend on the same device
@@ -31,7 +29,7 @@ The game follows a modular architecture pattern with clear separation of concern
 
 ## How to Play
 
-1. Open [index.html](file:///home/muhammadkhizar/Desktop/software-development/projects/full-stack-web-development/tic-tac-toe/index.html) in your web browser
+1. Open `index.html` in your web browser
 2. Players take turns clicking on the grid to place their mark (X or O)
 3. The first player to get 3 of their marks in a row (horizontally, vertically, or diagonally) wins
 4. If all squares are filled with no winner, the game ends in a draw
@@ -57,10 +55,10 @@ This game is compatible with modern browsers that support ES6+ JavaScript featur
 
 ## Author
 
-**Muhammad Khizar** - [mhmkhizar](https://github.com/mhmkhizar)
+[Muhammad Khizar](https://github.com/mhmkhizar)
 
 Created as part of The Odin Project curriculum.
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE). <!-- Add a LICENSE file if you have one -->
+This project is open source and available under the [MIT License](LICENSE).
