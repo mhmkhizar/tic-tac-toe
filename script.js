@@ -9,13 +9,21 @@ const playerNamesModal = document.querySelector(`#playerNamesModal`);
 const namesModalForm = playerNamesModal.querySelector(`#namesModalForm`);
 const name1Input = namesModalForm.querySelector(`#name1Input`);
 const name2Input = namesModalForm.querySelector(`#name2Input`);
+const player1NamePara = document.querySelector(`#player1NamePara`);
+const player2NamePara = document.querySelector(`#player2NamePara`);
 
 // PLAYER FACTORY FUNCTION
 const createPlayer = (name, mark) => {
-  const getName = () => name;
-  const getMark = () => mark;
+  const playerName = name;
+  const playerMark = mark;
 
-  return { getName, getMark };
+  const getName = () => playerName;
+  const getMark = () => playerMark;
+  const setName = (name) => {
+    playerName = name;
+  };
+
+  return { getName, getMark, setName };
 };
 
 // GAME BOARD MODULE
@@ -61,6 +69,7 @@ const GameController = (() => {
     GameBoard.resetBoard();
     activePlayer = player1;
     isGameOver = false;
+    UiController.updatePlayerNames();
     UiController.updateBoardDisplay();
     UiController.clickListners();
   };
@@ -117,6 +126,8 @@ const GameController = (() => {
   return {
     initializeGame,
     playRound,
+    player1,
+    player2,
   };
 })();
 
@@ -125,6 +136,11 @@ const UiController = (() => {
   const showGameOverModal = (message) => {
     gameOverModal.showModal();
     resultMessage.textContent = message;
+  };
+
+  const updatePlayerNames = () => {
+    player1NamePara.textContent = GameController.player1.getName();
+    player2NamePara.textContent = GameController.player2.getName();
   };
 
   const handleBoardClick = () => {
@@ -172,6 +188,7 @@ const UiController = (() => {
 
   return {
     updateBoardDisplay,
+    updatePlayerNames,
     showGameOverModal,
     clickListners,
   };
