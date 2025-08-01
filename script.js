@@ -1,16 +1,34 @@
-const boardElement = document.querySelector(`.game-board`);
-const boardCells = boardElement.querySelectorAll(`.cell`);
-const setNamesButton = document.querySelector(`#setNamesButton`);
-const resetButton = document.querySelector(`#resetButton`);
-const gameOverModal = document.querySelector(`#gameOverModal`);
-const resultMessage = gameOverModal.querySelector(`#resultText`);
-const restartButton = gameOverModal.querySelector(`#restartButton`);
-const playerNamesModal = document.querySelector(`#playerNamesModal`);
-const namesModalForm = playerNamesModal.querySelector(`#namesModalForm`);
-const name1Input = namesModalForm.querySelector(`#name1Input`);
-const name2Input = namesModalForm.querySelector(`#name2Input`);
-const player1NamePara = document.querySelector(`#player1NamePara`);
-const player2NamePara = document.querySelector(`#player2NamePara`);
+const boardElement = document.querySelector(".game-board");
+const boardCells = boardElement.querySelectorAll(".cell");
+const setNamesButton = document.querySelector("#setNamesButton");
+const resetButton = document.querySelector("#resetButton");
+const gameOverModal = document.querySelector("#gameOverModal");
+const resultMessage = gameOverModal.querySelector("#resultText");
+const restartButton = gameOverModal.querySelector("#restartButton");
+const playerNamesModal = document.querySelector("#playerNamesModal");
+const namesModalForm = playerNamesModal.querySelector("#namesModalForm");
+const name1Input = namesModalForm.querySelector("#name1Input");
+const name2Input = namesModalForm.querySelector("#name2Input");
+const player1NamePara = document.querySelector("#player1NamePara");
+const player2NamePara = document.querySelector("#player2NamePara");
+
+if (
+  !boardElement ||
+  !setNamesButton ||
+  !resetButton ||
+  !gameOverModal ||
+  !resultMessage ||
+  !restartButton ||
+  !playerNamesModal ||
+  !namesModalForm ||
+  !name1Input ||
+  !name2Input ||
+  !player1NamePara ||
+  !player2NamePara
+) {
+  console.error("Required DOM elements not found");
+  throw new Error("DOM elements missing");
+}
 
 // PLAYER FACTORY FUNCTION
 const createPlayer = (name, mark) => {
@@ -28,7 +46,7 @@ const createPlayer = (name, mark) => {
 
 // GAME BOARD MODULE
 const GameBoard = (() => {
-  const createEmptyBoard = () => Array(9).fill(``);
+  const createEmptyBoard = () => Array(9).fill("");
 
   let boardState = createEmptyBoard();
 
@@ -41,11 +59,10 @@ const GameBoard = (() => {
   };
 
   const isBoardFull = () => {
-    return boardState.every((cell) => cell !== ``);
+    return boardState.every((cell) => cell !== "");
   };
 
   const placeMark = (mark, index) => {
-    if (typeof mark !== `string` || mark === ``) return false;
     if (typeof index !== `number` || isNaN(index)) return false;
     if (mark !== `X` && mark !== `O`) return false;
     if (index < 0 || index > 8) return false;
@@ -60,8 +77,8 @@ const GameBoard = (() => {
 
 // GAME CONTROLLER MODULE
 const GameController = (() => {
-  const player1 = createPlayer(`Player: 1 (X)`, `X`);
-  const player2 = createPlayer(`Player: 2 (O)`, `O`);
+  const player1 = createPlayer("Player: 1 (X)", "X");
+  const player2 = createPlayer("Player: 2 (O)", "O");
   let activePlayer;
   let isGameOver;
 
@@ -69,9 +86,7 @@ const GameController = (() => {
     GameBoard.resetBoard();
     activePlayer = player1;
     isGameOver = false;
-    UiController.updatePlayerNames();
-    UiController.updateBoardDisplay();
-    UiController.clickListners();
+    UIController.updateBoardDisplay();
   };
 
   const switchTurn = () => {
@@ -110,13 +125,13 @@ const GameController = (() => {
 
     if (winnerExists) {
       isGameOver = true;
-      UiController.showGameOverModal(`${activePlayer.getName()} wins. 🥳`);
+      UIController.showGameOverModal(`${activePlayer.getName()} wins. 🥳`);
       return;
     }
 
     if (boardIsFull) {
       isGameOver = true;
-      UiController.showGameOverModal(`Ohho, it's a draw. 🤝`);
+      UIController.showGameOverModal(`Ohho, it's a draw. 🤝`);
       return;
     }
 
@@ -132,72 +147,65 @@ const GameController = (() => {
 })();
 
 // DISPLAY CONTROLLER MODULE
-const UiController = (() => {
+const UIController = (() => {
   const showGameOverModal = (message) => {
     gameOverModal.showModal();
     resultMessage.textContent = message;
   };
 
-  const updatePlayerNames = () => {
+  const updateDisplayPlayerNames = () => {
     player1NamePara.textContent = GameController.player1.getName();
     player2NamePara.textContent = GameController.player2.getName();
-  };
-
-  const handleBoardClick = () => {
-    boardElement.addEventListener(`click`, (e) => {
-      if (!e.target.classList.contains(`cell`)) return;
-
-      const clickedCell = e.target;
-      GameController.playRound(Number(clickedCell.dataset.index));
-      updateBoardDisplay();
-    });
-  };
-
-  const handleSetNamesButtonClick = () => {
-    setNamesButton.addEventListener(`click`, (e) => {
-      name1Input.value = ``;
-      name2Input.value = ``;
-      playerNamesModal.showModal();
-      namesModalForm.addEventListener(`submit`, (e) => {
-        GameController.player1.setName(`${name1Input.value} (X)`);
-        GameController.player2.setName(`${name2Input.value} (O)`);
-        updatePlayerNames();
-      });
-    });
-  };
-
-  const handleResetButtonClick = () => {
-    resetButton.addEventListener(`click`, () => {
-      GameController.initializeGame();
-    });
-  };
-
-  const handleRestartButtonClick = () => {
-    restartButton.addEventListener(`click`, () => {
-      GameController.initializeGame();
-      gameOverModal.close();
-    });
   };
 
   const updateBoardDisplay = () => {
     const boardState = GameBoard.getBoard();
     boardCells.forEach((cell, index) => {
-      cell.textContent = `${boardState[index]}`;
+      if (cell.textContent !== boardState[index]) {
+        cell.textContent = boardState[index];
+      }
     });
   };
 
-  const clickListners = () => {
-    handleBoardClick();
-    handleSetNamesButtonClick();
-    handleResetButtonClick();
-    handleRestartButtonClick();
+  const initializeListeners = () => {
+    boardElement.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("cell")) return;
+      const clickedCell = e.target;
+      GameController.playRound(Number(clickedCell.dataset.index));
+      updateBoardDisplay();
+    });
+
+    setNamesButton.addEventListener("click", () => {
+      name1Input.value = "";
+      name2Input.value = "";
+      playerNamesModal.showModal();
+    });
+
+    namesModalForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name1 = name1Input.value.trim();
+      const name2 = name2Input.value.trim();
+      GameController.player1.setName(`${name1} (X)`);
+      GameController.player2.setName(`${name2} (O)`);
+      updateDisplayPlayerNames();
+      playerNamesModal.close();
+    });
+
+    resetButton.addEventListener("click", () => {
+      GameController.initializeGame();
+    });
+
+    restartButton.addEventListener("click", () => {
+      GameController.initializeGame();
+      gameOverModal.close();
+    });
   };
+
+  initializeListeners();
 
   return {
     updateBoardDisplay,
-    updatePlayerNames,
     showGameOverModal,
-    clickListners,
   };
 })();
 
