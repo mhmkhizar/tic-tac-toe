@@ -12,10 +12,10 @@
       <header class="header main-header">
         <h1 class="logo text-logo">Tic Tac Toe</h1>
         <div class="settings-section">
-          <button class="btn settings-btn" id="setPlayersNameBtn" type="button">
+          <button class="btn settings-btn" id="setNamesButton" type="button">
             Set Players Name
           </button>
-          <button class="btn settings-btn" id="resetGameBtn" type="button">
+          <button class="btn settings-btn" id="resetButton" type="button">
             Reset Game
           </button>
         </div>
@@ -58,15 +58,15 @@
         </p>
       </footer>
     </div>
-    <aside class="aside dialogs-section">
-      <dialog class="dialog game-over-dialog" id="gameOverDialog">
+    <aside class="aside modals-section">
+      <dialog class="modal game-over-modal" id="gameOverModal">
         <p class="text result-text" id="resultText"></p>
-        <button class="btn dialog-btn" id="restartGameBtn" type="button">
+        <button class="btn modal-btn" id="restartButton" type="button">
           Restart Game
         </button>
       </dialog>
-      <dialog class="dialog set-names-dialog" id="setNamesDialog">
-        <form class="form dialog-form" method="dialog">
+      <dialog class="modal set-names-modal" id="setNamesModal">
+        <form class="form modal-form" method="dialog">
           <input
             type="text"
             name="player1name"
@@ -81,7 +81,7 @@
             placeholder="Player: 2 (O)'s Name Here"
             required
           />
-          <button class="btn dialog-btn" type="submit">Set Name</button>
+          <button class="btn modal-btn" type="submit">Set Name</button>
         </form>
       </dialog>
     </aside>
