@@ -187,9 +187,9 @@ body {
   padding: 4rem 12rem;
   border: 1px solid black;
   border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.6rem;
+  text-align: center;
+}
+
+.game-over-dialog .result-text {
+  margin-bottom: 1.6rem;
 }
