@@ -1,4 +1,4 @@
-# tic-tac-toe# Tic Tac Toe Game
+# Tic Tac Toe Game
 
 A modern, responsive implementation of the classic Tic Tac Toe game built with HTML, CSS, and JavaScript. This project demonstrates clean code architecture using the Module Pattern and Factory Functions.
 
